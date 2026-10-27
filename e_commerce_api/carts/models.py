@@ -18,8 +18,6 @@ class Cart(models.Model):
 
 
 
-
-
 class CartItem(models.Model):
     cart = models.ForeignKey(
         Cart,
