@@ -58,3 +58,37 @@ class AddToCartView(APIView):
 
 
 
+class UpdateCartItemView(APIView):
+    permission_classes = [IsAuthenticated]
+
+
+    def patch(self, request, item_id):
+        try:
+
+            quantity = int(request.data.get("quantity"))
+
+        except(TypeError, ValueError):
+            return Response ({"error": "Quantity must be a valid integer."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        if quantity < 1:
+            return Response ({"error": "Quantity mst be at least 1."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        try:
+            cart_item = CartItem.objects.get(id=item_id, cart__user=request.user)
+
+        except CartItem.DoesNotExist:
+            return Response ({"error": "cart item not found."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+        cart_item.quantity = quantity
+        cart_item.save(update_fields=[""quantity])
+
+        serializer = CartItemSerializer(cart_item)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+    
