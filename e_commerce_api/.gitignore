@@ -8,3 +8,4 @@ e_commerce_api/db.sqlite3
 media/
 .idea/
 .db.sqlite3
+.db.sqlite3/
