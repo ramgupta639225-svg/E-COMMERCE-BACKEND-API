@@ -84,7 +84,7 @@ class UpdateCartItemView(APIView):
 
 
         cart_item.quantity = quantity
-        cart_item.save(update_fields=[""quantity])
+        cart_item.save(update_fields=["quantity"])
 
         serializer = CartItemSerializer(cart_item)
         return Response(serializer.data, status=status.HTTP_200_OK)
